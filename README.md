@@ -1,6 +1,6 @@
 # Intro
 
-This is my submission for 'Project: Log Analysis'. While examining this submission, it would be greatly appreciated to leave critical feedback so as to better learn these languages and nip bad habits early on. 
+This is my submission for 'Project: Log Analysis'. While examining this submission, it would be greatly appreciated to leave critical feedback so as to better learn these languages and nip bad habits early on.
 
 This program connects to a postgresSQL DB via a Vagrant VM running Ubuntu 16.04.6 LTS. Upon running `logTools.py` the output will be in response to the following questions:
 * __What are the most popular three articles of all time?__
@@ -45,7 +45,7 @@ as
 ```
 
 
-ErrorStats materialized view:
+ErrorStats materialized view (materialized to avoid requerying the 'log' table):
 
 ```
 create materialized view errorStats 
