@@ -9,7 +9,7 @@ This program connects to a postgresSQL DB via a Vagrant VM running Ubuntu 16.04.
 
 # Run Instructions
 - Download or manually create the [newsdata.sql](../master/newsdata.sql) file
-- Create the [views](../README.md#views) listed below for the `news` db 
+- Create the [views](../master/README.md#views) listed below for the `news` db 
 - Install `psycopg2` database adapter with `pip3 install psycopg2` or `pip3 install psycopg2-binary`
 - Run the Program! `python3 logTool.py`
 
