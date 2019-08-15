@@ -1,3 +1,4 @@
+#!/usr/bin/bash/env python3
 '''
 @Author Erik Grootendorst
 @Title Project: Log Analysis
@@ -5,29 +6,29 @@
 @Class Full Stack Web Developer Nano Degree
 @Description See README.md
 '''
-# Honestly I'm still very green at both python and SQL and would love 
+# Honestly I'm still very green at both python and SQL and would love
 # any feedback on coding styles or tricks to use so as to increase readability
 # and efficiency
 
-import psycopg2
+import psycopg2, sys
 
 
 DBNAME = "news"
 QUERY1 = '''select * from views limit 3'''
 
-QUERY2 = '''select name, sum(count) as views 
-            from authors 
+QUERY2 = '''select name, sum(count) as views
+            from authors
             join (
-                select author, works.title, count 
-                from works 
+                select author, works.title, count
+                from works
                 join views on works.title = views.title
-                ) as a  
-            on authors.id = a.author 
-            group by name 
+                ) as a
+            on authors.id = a.author
+            group by name
             order by views desc'''
 
-QUERY3 = '''select date, perror 
-            from errorStats 
+QUERY3 = '''select date, perror
+            from errorStats
             where perror > 1.0'''
 
 
@@ -35,7 +36,16 @@ QUERY3 = '''select date, perror
 # as opposed to instantiating it in each method.
 # Any feedback on this matter would be appreciated, I dont know if I could pass
 # this object from the main method to better control it, as well as the cursor.
-db = psycopg2.connect(database = DBNAME)
+
+try:
+    db = psycopg2.connect(database=DBNAME)
+except psycopg2.Error as e:
+    print ("Unable to connect to " + DBNAME)
+    print (e.pgerror)
+    print (e.diag.message_detail)
+    sys.exit(1)
+else:
+    print ("Connected!")
 
 
 def main():
@@ -43,7 +53,6 @@ def main():
     getPopArticles()
     getPopAuthors()
     getErrorLog()
-    
     db.close()
 
 
@@ -62,8 +71,9 @@ def getPopArticles():
     print('*********************************************************\n')
 
     for rows in popArts:
-        print('\'' + rows[0] + '\'' +  ' - ' + str(rows[1]) + ' views')
-    
+        # print('\'' + rows[0] + '\'' + ' - ' + str(rows[1]) + ' views')
+        print('"{article}" - {count} views'.format(article=rows[0], count=rows[1]))
+
     print('')
 
 
@@ -80,11 +90,12 @@ def getPopAuthors():
     print('*********************************************************\n')
 
     for rows in popAuths:
-        print(rows[0] + ' - ' + str(rows[1]) + ' views')
+        print('"{author}" -  {count} views'.format(author=rows[0], count=rows[1]))
 
     print('')
 
-#answer to question 3
+
+# answer to question 3
 def getErrorLog():
 
     c = db.cursor()
@@ -92,19 +103,15 @@ def getErrorLog():
 
     errorDays = c.fetchall()
 
-    print('\n***************************************************************')
-    print('* On which days did more than 1%% of requests lead to errors? *')
-    print('***************************************************************\n')
+    print('\n**************************************************************')
+    print('* On which days did more than 1% of requests lead to errors? *')
+    print('**************************************************************\n')
 
     for rows in errorDays:
-        print(rows[0] + " - %1.1f%%" % rows[1] + " errors")
-    
+        print('{date} - {:1.1f}% errors'.format(rows[1], date=rows[0]))
+
     print('')
 
 
 if __name__ == "__main__":
     main()
-
-
-
-
