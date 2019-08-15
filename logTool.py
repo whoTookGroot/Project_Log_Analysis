@@ -10,7 +10,8 @@
 # any feedback on coding styles or tricks to use so as to increase readability
 # and efficiency
 
-import psycopg2, sys
+import psycopg2
+import sys
 
 
 DBNAME = "news"
@@ -71,8 +72,9 @@ def getPopArticles():
     print('*********************************************************\n')
 
     for rows in popArts:
-        # print('\'' + rows[0] + '\'' + ' - ' + str(rows[1]) + ' views')
-        print('"{article}" - {count} views'.format(article=rows[0], count=rows[1]))
+        # Line was too long according to PEP8, had to go to next line
+        print('"{article}" - {count} views'
+              .format(article=rows[0], count=rows[1]))
 
     print('')
 
@@ -90,7 +92,8 @@ def getPopAuthors():
     print('*********************************************************\n')
 
     for rows in popAuths:
-        print('"{author}" -  {count} views'.format(author=rows[0], count=rows[1]))
+        print('"{author}" -  {count} views'
+              .format(author=rows[0], count=rows[1]))
 
     print('')
 
