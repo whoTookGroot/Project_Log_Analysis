@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env 
 '''
 @Author Erik Grootendorst
 @Title Project: Log Analysis
